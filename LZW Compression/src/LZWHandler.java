@@ -6,13 +6,20 @@ public class LZWHandler {
 
 	public static void main(String[] args) throws FileNotFoundException, IOException {
 		Scanner k = new Scanner (System.in);
+		
+		System.out.println("Compress or decompress? (c/d)");
+		String choice = k.nextLine();
+		
 		System.out.println("Input filename:");
 		String input = k.nextLine();
 	
 		System.out.println("Output filename:");
 		String output = k.nextLine();
 		
-		LZWCompressor.compress(input, output);
+		if(choice=="c")
+			LZWCompressor.compress(input, output);
+		else
+			LZWDecompressor.decompress(input, output);
 		k.close();
 	}
 
