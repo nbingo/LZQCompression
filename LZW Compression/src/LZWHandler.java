@@ -9,6 +9,11 @@ public class LZWHandler {
 		
 		System.out.println("Compress or decompress? (c/d)");
 		String choice = k.nextLine();
+		while (!(choice.equalsIgnoreCase("c") || choice.equalsIgnoreCase("d")))
+		{
+			System.out.println("Please enter a correct option.");
+			choice = k.nextLine();
+		}
 		
 		System.out.println("Input filename:");
 		String input = k.nextLine();
@@ -16,7 +21,7 @@ public class LZWHandler {
 		System.out.println("Output filename:");
 		String output = k.nextLine();
 		
-		if(choice=="c")
+		if(choice.equalsIgnoreCase("c"))
 			LZWCompressor.compress(input, output);
 		else
 			LZWDecompressor.decompress(input, output);

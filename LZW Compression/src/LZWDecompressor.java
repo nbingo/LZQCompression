@@ -30,8 +30,7 @@ public class LZWDecompressor {
 			else
 				entry = table.get(code);
 			writer.print(entry);
-			table.put(counter, str+entry.charAt(0));
-			counter++;
+			table.put(counter++, str+entry.charAt(0));
 			str = entry;
 		}
 		

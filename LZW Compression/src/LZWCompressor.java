@@ -24,8 +24,7 @@ public class LZWCompressor {
 			else
 			{
 				writer.print(table.get(str)+" ");
-				table.put(str+character, counter);
-				counter++;
+				table.put(str+character, counter++);
 				str = ""+character;
 			}
 		}
