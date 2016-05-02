@@ -7,7 +7,10 @@ public class LZWCompressor {
 	{
 		BufferedReader reader = new BufferedReader(new FileReader(infilename));
 		PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(outfilename)));
-		writer.write(byteLimit+"\n");
+		
+		if(byteLimit > 100)
+			byteLimit = 99;
+		writer.write(byteLimit);
 		
 		Hashtable<String, Integer> table = new Hashtable<String, Integer>(500);
 		
@@ -15,6 +18,7 @@ public class LZWCompressor {
 			table.put(""+(char)i, i);
 		
 		int counter = 256;
+		double tableLimit = Math.pow(2, byteLimit);
 		
 		String str = ""+(char)reader.read();
 		
@@ -28,7 +32,7 @@ public class LZWCompressor {
 			else
 			{
 				code.append(intToBinary(table.get(str), byteLimit));
-				if (table.size() < Math.pow(2, byteLimit))
+				if (table.size() < tableLimit)
 					table.put(str+character, counter++);
 				str = ""+character;
 			}
