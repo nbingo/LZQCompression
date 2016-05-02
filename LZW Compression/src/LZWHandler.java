@@ -22,7 +22,10 @@ public class LZWHandler {
 		String output = k.nextLine();
 		
 		if(choice.equalsIgnoreCase("c"))
-			LZWCompressor.compress(input, output, 12);
+		{
+			System.out.println("How many bits per code?");
+			LZWCompressor.compress(input, output, k.nextInt());
+		}
 		else
 			LZWDecompressor.decompress(input, output);
 		k.close();
