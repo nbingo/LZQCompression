@@ -22,7 +22,7 @@ public class LZWHandler {
 		String output = k.nextLine();
 		
 		if(choice.equalsIgnoreCase("c"))
-			LZWCompressor.compress(input, output);
+			LZWCompressor.compress(input, output, 12);
 		else
 			LZWDecompressor.decompress(input, output);
 		k.close();
