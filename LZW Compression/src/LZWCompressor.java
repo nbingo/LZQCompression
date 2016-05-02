@@ -7,6 +7,8 @@ public class LZWCompressor {
 	{
 		BufferedReader reader = new BufferedReader(new FileReader(infilename));
 		PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(outfilename)));
+		writer.write(byteLimit+"\n");
+		
 		Hashtable<String, Integer> table = new Hashtable<String, Integer>(500);
 		
 		for (int i = 0; i <= 255; i++)
