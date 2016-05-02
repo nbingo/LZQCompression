@@ -12,9 +12,6 @@ public class LZWCompressor {
 		for (int i = 0; i <= 255; i++)
 			table.put(""+(char)i, i);
 		
-		if (byteLimit > 16)
-			byteLimit = 16;
-		
 		int counter = 256;
 		
 		String str = ""+(char)reader.read();
