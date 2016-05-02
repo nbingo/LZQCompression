@@ -29,7 +29,7 @@ public class LZWCompressor {
 			else
 			{
 				code.append(intToBinary(table.get(str), byteLimit));
-				if (table.size() < byteLimit)
+				if (table.size() < Math.pow(2, byteLimit))
 					table.put(str+character, counter++);
 				str = ""+character;
 			}
