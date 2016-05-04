@@ -8,8 +8,8 @@ public class LZWDecompressor {
 	{
 		BufferedReader reader = new BufferedReader(new FileReader (infilename));
 		PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(outfilename)));
-		
-		int byteLimit = Integer.parseInt(reader.read() + "" + reader.read());
+		String num = reader.readLine();
+		int byteLimit = Integer.parseInt(num);
 		
 		Hashtable<Integer, String> table = new Hashtable<Integer, String>(500);
 		
@@ -19,11 +19,17 @@ public class LZWDecompressor {
 		
 		StringBuffer binary = new StringBuffer();
 		while (reader.ready())
-			binary.append(Integer.toBinaryString(reader.read()));
+		{
+			String temp = Integer.toBinaryString(reader.read());
+			binary.append(makeZeros(8 - temp.length()) + temp);
+		}
 		
 		StringBuffer nums = new StringBuffer();
-		for (int i = 0; i < nums.length()/8; i++)
-			nums.append(Integer.parseInt(nums.substring(8*i, (i+1)*8), 2) + " ");
+		int i;
+		for (i = 0; i < binary.length()/byteLimit; i++)
+			nums.append(Integer.parseInt(binary.substring(byteLimit*i, (i+1)*byteLimit), 2) + " ");
+		if (binary.length() % byteLimit != 0)
+			nums.append(Integer.parseInt(binary.substring(i*byteLimit), 2));
 		
 		Scanner scan = new Scanner(nums.toString());
 		
@@ -51,5 +57,13 @@ public class LZWDecompressor {
 		reader.close();
 		writer.close();
 		scan.close();
+	}
+	
+	private static String makeZeros (int n)
+	{
+		String zeros = "";
+		for (int i = 0; i < n; i++)
+			zeros += "0";
+		return zeros;
 	}
 }

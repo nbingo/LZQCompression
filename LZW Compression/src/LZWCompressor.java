@@ -10,7 +10,7 @@ public class LZWCompressor {
 		
 		if(byteLimit > 100)
 			byteLimit = 99;
-		writer.write(byteLimit);
+		writer.write(byteLimit+"\n");
 		
 		Hashtable<String, Integer> table = new Hashtable<String, Integer>(500);
 		
@@ -46,7 +46,7 @@ public class LZWCompressor {
 				writer.write((char)Integer.parseInt(code.substring(8*i, (i+1)*8),2));
 			
 			String lastFew = code.substring(i*8);
-			lastFew = makeZeros(8-lastFew.length()) + lastFew;
+			lastFew = lastFew + makeZeros(8-lastFew.length());
 			writer.write((char)Integer.parseInt(lastFew, 2));
 		}
 		else
@@ -61,7 +61,7 @@ public class LZWCompressor {
 	{
 		String result = Integer.toBinaryString(n);
 		if (result.length() < byteLimit)
-			result = makeZeros(byteLimit-n) + result;
+			result = makeZeros(byteLimit-result.length()) + result;
 		return result;
 	}
 	
