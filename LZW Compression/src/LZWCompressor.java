@@ -8,8 +8,6 @@ public class LZWCompressor {
 		BufferedReader reader = new BufferedReader(new FileReader(infilename));
 		PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(outfilename)));
 		
-		if(byteLimit > 100)
-			byteLimit = 99;
 		writer.write(byteLimit+"\n");
 		
 		double tableLimit = Math.pow(2, byteLimit);
