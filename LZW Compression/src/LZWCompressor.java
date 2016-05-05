@@ -12,13 +12,13 @@ public class LZWCompressor {
 			byteLimit = 99;
 		writer.write(byteLimit+"\n");
 		
-		Hashtable<String, Integer> table = new Hashtable<String, Integer>(500);
+		double tableLimit = Math.pow(2, byteLimit);
+		Hashtable<String, Integer> table = new Hashtable<String, Integer>((int)tableLimit);
 		
 		for (int i = 0; i <= 255; i++)
 			table.put(""+(char)i, i);
 		
 		int counter = 256;
-		double tableLimit = Math.pow(2, byteLimit);
 		
 		String str = ""+(char)reader.read();
 		

@@ -11,7 +11,8 @@ public class LZWDecompressor {
 		String num = reader.readLine();
 		int byteLimit = Integer.parseInt(num);
 		
-		Hashtable<Integer, String> table = new Hashtable<Integer, String>(500);
+		double tableLimit = Math.pow(2, byteLimit);
+		Hashtable<Integer, String> table = new Hashtable<Integer, String>((int)tableLimit);
 		
 		for (int i = 0; i <= 255; i++)
 			table.put(i,""+(char)i);
@@ -39,7 +40,6 @@ public class LZWDecompressor {
 		writer.print(str);
 		
 		String entry = "";
-		double tableLimit = Math.pow(2, byteLimit);
 		
 		while(scan.hasNextInt())
 		{
