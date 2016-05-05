@@ -1,5 +1,7 @@
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+
 import java.util.Scanner;
 
 public class LZWHandler {
@@ -25,10 +27,29 @@ public class LZWHandler {
 		{
 			System.out.println("How many bits per code?");
 			LZWCompressor.compress(input, output, k.nextInt());
+			File in = new File (input), out = new File(output);
+			System.out.println("Original file size: " + makeHumanReadable(in.length()));
+			System.out.print("Compressed file size: " + makeHumanReadable(out.length()));
 		}
 		else
 			LZWDecompressor.decompress(input, output);
 		k.close();
+	}
+	
+	private static String makeHumanReadable(long bytes)
+	{
+		if (bytes < 1000)
+			return bytes + " B";
+		else if (bytes < 1e6)
+			return bytes/1000 + " kB";
+		else if (bytes < 1e9)
+			return bytes/1e6 + " MB";
+		else if (bytes < 1e12)
+			return bytes/1e9 + " GB";
+		else if (bytes < 1e15)
+			return bytes/1e12 + " TB";
+		else
+			return bytes/1e15 + " PB";
 	}
 
 }
