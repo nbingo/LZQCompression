@@ -28,8 +28,9 @@ public class LZWHandler {
 			System.out.println("How many bits per code?");
 			LZWCompressor.compress(input, output, k.nextInt());
 			File in = new File (input), out = new File(output);
-			System.out.println("Original file size: " + makeHumanReadable(in.length()));
-			System.out.print("Compressed file size: " + makeHumanReadable(out.length()));
+			System.out.println("\nOriginal file size: " + makeHumanReadable(in.length()));
+			System.out.println("Compressed file size: " + makeHumanReadable(out.length()));
+			System.out.println("Percent of original file size: " + ((out.length() + .0)/in.length()*100));
 		}
 		else
 			LZWDecompressor.decompress(input, output);
