@@ -20,7 +20,9 @@ public class LZWCompressor {
 		
 		String str = ""+(char)reader.read();
 		
-		StringBuffer code = new StringBuffer();
+		PrintWriter code = new PrintWriter(new BufferedWriter(new FileWriter("tempBin.txt")));
+		
+		int binCounter = 0;
 		
 		while(reader.ready())
 		{
@@ -29,30 +31,38 @@ public class LZWCompressor {
 				str += character;
 			else
 			{
-				code.append(intToBinary(table.get(str), byteLimit));
+				String bin = intToBinary(table.get(str), byteLimit);
+				code.write(bin);
+				binCounter += bin.length();
 				if (table.size() < tableLimit)
 					table.put(str+character, counter++);
 				str = ""+character;
 			}
 		}
-		code.append(intToBinary(table.get(str), byteLimit));
+		String bin = intToBinary(table.get(str), byteLimit);
+		code.write(bin);
+		binCounter += bin.length();
+
+		code.close();
+		BufferedReader binReader = new BufferedReader(new FileReader("tempBin.txt"));
 		
-		if (code.length()%8!=0)
+		if (binCounter%8!=0)
 		{
 			int i;
-			for (i = 0; i < code.length()/8 - 1; i++)
-				writer.write((char)Integer.parseInt(code.substring(8*i, (i+1)*8),2));
+			for (i = 0; i < binCounter/8 - 1; i++)
+				writer.write((char)Integer.parseInt(eightChars(binReader)));
 			
-			String lastFew = code.substring(i*8);
+			String lastFew = lastFewChars(binReader);
 			lastFew = lastFew + makeZeros(8-lastFew.length());
 			writer.write((char)Integer.parseInt(lastFew, 2));
 		}
 		else
-			for (int i = 0; i < code.length()/8; i++)
-				writer.write((char)Integer.parseInt(code.substring(8*i, (i+1)*8),2));
+			for (int i = 0; i < binCounter/8 && binReader.ready(); i++)
+				writer.write((char)Integer.parseInt(eightChars(binReader)));
 		
 		reader.close();
 		writer.close();
+		binReader.close();
 	}
 	
 	private static String intToBinary(int n, int byteLimit)
@@ -69,6 +79,22 @@ public class LZWCompressor {
 		for (int i = 0; i < n; i++)
 			zeros += "0";
 		return zeros;
+	}
+	
+	private static String eightChars(BufferedReader reader) throws IOException
+	{
+		String result = "";
+		for (int i = 0; i < 8; i++)
+			result += (char)reader.read();
+		return result;
+	}
+	
+	private static String lastFewChars(BufferedReader reader) throws IOException
+	{
+		String result = "";
+		while (reader.ready())
+			result += (char)reader.read();
+		return result;
 	}
 	
 }
