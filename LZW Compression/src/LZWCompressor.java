@@ -34,6 +34,12 @@ public class LZWCompressor {
 					table.put(str+character, counter++);
 				str = ""+character;
 			}
+			
+			if (code.length() >= 8)
+			{
+				writer.write((char)Integer.parseInt(code.substring(0, 8),2));
+				code.delete(0, 8);
+			}
 		}
 		code.append(intToBinary(table.get(str), byteLimit));
 		
