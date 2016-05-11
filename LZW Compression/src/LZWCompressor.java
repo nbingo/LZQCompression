@@ -5,6 +5,9 @@ public class LZWCompressor {
 	
 	public static void compress (String infilename, String outfilename, int byteLimit) throws FileNotFoundException, IOException
 	{
+		File temp = new File(infilename);
+		long bytesRead = 0, totalBytes = temp.length();
+		
 		BufferedReader reader = new BufferedReader(new FileReader(infilename));
 		PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(outfilename)));
 		
@@ -25,6 +28,7 @@ public class LZWCompressor {
 		while(reader.ready())
 		{
 			char character = (char)reader.read();
+			bytesRead++;
 			if (table.containsKey(str+character))
 				str += character;
 			else
@@ -40,6 +44,8 @@ public class LZWCompressor {
 				writer.write((char)Integer.parseInt(code.substring(0, 8),2));
 				code.delete(0, 8);
 			}
+			if (bytesRead%500==0)
+				System.out.println("% of file compressed: " + (bytesRead/(totalBytes+.0)*100));
 		}
 		code.append(intToBinary(table.get(str), byteLimit));
 		
