@@ -39,12 +39,12 @@ public class LZWCompressor {
 				str = ""+character;
 			}
 			
-			while (code.length() >= 8)
+			while (code.length() > 8)
 			{
 				writer.write((char)Integer.parseInt(code.substring(0, 8),2));
 				code.delete(0, 8);
 			}
-			if (bytesRead%500==0)
+			if (bytesRead%1e6==0)
 				System.out.println("% of file compressed: " + (bytesRead/(totalBytes+.0)*100));
 		}
 		code.append(intToBinary(table.get(str), byteLimit));
